@@ -1,5 +1,4 @@
 *.pyc
-*.xlsx
 *.json
 node_modules
 !package.json
