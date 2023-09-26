@@ -6,7 +6,7 @@ class InputSettings:
             "__NAME__": "MVP",
             "__ADDRESS__": 'R. Prof. Baroni, 190 - 101 - Gutierrez, Belo Horizonte - MG, 30441-180',
             "__QUERY__": {
-                ("pinho sol","kg"):(),
+                ("saco de lixo","kg"):(),
             },
             "__SPREADSHEET_ID__": '1lzEl5fIgC4PfC2PuA7zJBUfs8TrSY6wGHwG3ktUQRzs'
         },
@@ -58,7 +58,7 @@ class InputSettings:
                     'product-name',           'k term-in-product-name?',  'product-out-stock',
                     'step-quantity-in-grams']
 
-    INPUT_SITE = True
+    INPUT_SITE = False
     GENERATE_EXCEL = False
     WORKBOOK_PATH = './Workbook.xlsx'
 

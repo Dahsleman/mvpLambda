@@ -25,7 +25,7 @@ def setHomeProductsJson(_products_list:list):
     JsonFile.createJsonFile(_products_list, json_file_name)
 
 
-def getStoreAddress(bearer_token, store_id):
+def getStoreAddressAndName(bearer_token, store_id):
     url = f'https://services.rappi.com.br/api/web-gateway/web/stores-router/id/{store_id}/'
 
     request_heathers = {
@@ -39,7 +39,8 @@ def getStoreAddress(bearer_token, store_id):
         if response.status_code == 200:
             json_data = response.json()
             store_address = json_data['address']
-            return store_address
+            store_name = json_data['name']
+            return store_address, store_name
 
     except requests.exceptions.HTTPError as err:
         if response.status_code == 401:
@@ -78,8 +79,7 @@ def storesList(lat, lng, query, bearer_token):
                 store_dict = {}
                 search_term = query
                 store_id = store['store_id']
-                store_address = getStoreAddress(bearer_token, store_id)
-                store_name = StringUtils.getStoreName(store)
+                store_address, store_name = getStoreAddressAndName(bearer_token, store_id)
                 products_list = StringUtils.getStoreProdcuts(store, store_id, store_address, store_name, search_term)
                 store_dict[store_name] = products_list
                 stores_list.append(store_dict)
