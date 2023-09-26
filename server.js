@@ -17,7 +17,7 @@ app.get('/server-ip', (req, res) => {
 });
 
 app.post('/run-python', async (req, res) => { 
-  exec('python mvp.py 0', async (error, stdout, stderr) => { 
+  exec('python search_home.py 0', async (error, stdout, stderr) => { 
     if (error) {
       console.error(`Error executing script: ${error}`);
       res.status(500).json({ message: 'Failed to run script', error: stderr });
