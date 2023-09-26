@@ -1,0 +1,15 @@
+*.pyc
+*.xlsx
+*.json
+node_modules
+!package.json
+!google_sheet/*
+credentials.json
+config.js
+
+# Ignore macOS system files
+.DS_Store
+.localized
+
+# Ignore IntelliJ IDEA project files
+.idea/
