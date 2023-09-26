@@ -6,6 +6,7 @@ from utils.mvp_utils import ProductFormatter, JsonFile
 from utils.rappi_utils import StringUtils, Playwright
 from utils.file_generator import FileGenerator
 from input_settings import InputSettings
+from utils.xlsx_utils import XlsxUtils
 from datetime import datetime
 import geocoder 
 import requests
@@ -218,10 +219,6 @@ print(f'SCRAPPER: {formatted_time}')
 print(f'TOTAL PRODUCTS SCRAPED: {len(datetime_products_list)}')
 
 setMvpProductsJson(datetime_products_list)
-# directory_path = "./data/json/mvp"
-# formatted_address = JsonFile.format_address(address)
-# json_file_name = f'{directory_path}/{term}_{formatted_address}'
-
 
 product_names, store_addresses, product_quantities, product_units, product_prices, product_datetime, product_scores, store_names = ProductFormatter.getProductsInfo(datetime_products_list)
 products_formatted_names = ProductFormatter.setProductsFormattedNames(product_names,product_quantities,product_units)
@@ -230,8 +227,12 @@ search_home_list = ProductFormatter.sortProductsFromPageOne(products_formatted_n
 setHomeProductsJson(search_home_list)
 
 if len(datetime_products_list) > 0:
-    # FileGenerator.generateFiles(datetime_products_list, clientDetails)
     GoogleSheetApi.update_google_sheet(clientDetails, datetime_products_list, None, search_home_list, None)
+    if InputSettings.INPUT_SITE:
+        XlsxUtils.create_csv_file(datetime_products_list)
+    if InputSettings.GENERATE_EXCEL:
+        FileGenerator.generateFiles(datetime_products_list, clientDetails)
+        
 
 current_datetime = datetime.now()
 formatted_time = current_datetime.strftime("%Y-%m-%d | %H:%M:%S")

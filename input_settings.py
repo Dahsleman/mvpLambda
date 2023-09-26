@@ -58,7 +58,8 @@ class InputSettings:
                     'product-name',           'k term-in-product-name?',  'product-out-stock',
                     'step-quantity-in-grams']
 
-    INPUT_SITE = False
+    INPUT_SITE = True
+    GENERATE_EXCEL = False
     WORKBOOK_PATH = './Workbook.xlsx'
 
     df_name = pd.read_excel(WORKBOOK_PATH, sheet_name='name')
