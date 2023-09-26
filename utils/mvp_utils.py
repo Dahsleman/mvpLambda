@@ -264,7 +264,7 @@ class ProductFormatter:
 
         return products_list, scores_list, prices_list , stores_list
 
-    def sortProductsFromPageOne(products_formatted_names:list, product_scores:list, product_prices:list, product_stores:list):
+    def sortProductsFromHomePage(products_formatted_names:list, product_scores:list, product_prices:list, product_stores:list):
         product_names_sorted = []
         
         name_list, score_list, start_price_list, stores_list  = ProductFormatter.sortProductsByHighestScore(products_formatted_names, product_scores, product_prices, product_stores)

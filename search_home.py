@@ -222,7 +222,7 @@ setMvpProductsJson(datetime_products_list)
 
 product_names, store_addresses, product_quantities, product_units, product_prices, product_datetime, product_scores, store_names = ProductFormatter.getProductsInfo(datetime_products_list)
 products_formatted_names = ProductFormatter.setProductsFormattedNames(product_names,product_quantities,product_units)
-search_home_list = ProductFormatter.sortProductsFromPageOne(products_formatted_names, product_scores, product_prices, store_addresses)
+search_home_list = ProductFormatter.sortProductsFromHomePage(products_formatted_names, product_scores, product_prices, store_addresses)
 
 setHomeProductsJson(search_home_list)
 
