@@ -175,12 +175,13 @@ try:
     if bearer_token:
         print('Using generated Bearer_token')
     else:
-        bearer_token = Playwright.get_headers_authorization()
-        if bearer_token:
-            print('Tryed twice and now using generated Bearer_token')
-        else:
-            print('Error: Bearer Token equal none')
-            exit()
+        token = False
+        while token == False:
+            bearer_token = Playwright.get_headers_authorization()
+            if bearer_token:
+                token = True
+                print('Using generated Bearer_token with while')            
+        
 except Exception as err:
     print(f'ERRO: {err}')
     exit()
