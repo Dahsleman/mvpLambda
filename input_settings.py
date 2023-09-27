@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 
 class InputSettings:
     CLIENTS = [
@@ -6,7 +7,7 @@ class InputSettings:
             "__NAME__": "MVP",
             "__ADDRESS__": 'R. Prof. Baroni, 190 - 101 - Gutierrez, Belo Horizonte - MG, 30441-180',
             "__QUERY__": {
-                ("saco de lixo","kg"):(),
+                ("leite","L"):(),
             },
             "__SPREADSHEET_ID__": '1lzEl5fIgC4PfC2PuA7zJBUfs8TrSY6wGHwG3ktUQRzs'
         },
@@ -48,6 +49,29 @@ class InputSettings:
             "__TERM__":term,
             "__SPREADSHEET_ID__":spreadsheet_id,
             "__PRODUCT_NAME__":'sabonete pielsana liquido antisseptico com phmb 500ml',
+        }
+    ]
+
+    directory_path = "./data/s3"
+    json_file_name = f'{directory_path}/input'
+
+    try:
+        with open(f'{json_file_name}.json', 'r') as json_file:
+            json_data = json.load(json_file)
+            json_file.close()
+    except FileNotFoundError as err:
+        print(f'Error: {err}')
+
+    term = json_data['search_term']
+    address = json_data['address']
+
+    LAMBDA = [
+        {
+            "__ADDRESS__": address,
+            "__QUERY__": {
+                (term,"L"):(),
+            },
+            "__TERM__": term,
         }
     ]
             
