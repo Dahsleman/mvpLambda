@@ -218,16 +218,16 @@ print(f'SCRAPPER: {formatted_time}')
 
 print(f'TOTAL PRODUCTS SCRAPED: {len(datetime_products_list)}')
 
-setMvpProductsJson(datetime_products_list)
-
-product_names, store_addresses, product_quantities, product_units, product_prices, product_datetime, product_scores, store_names = ProductFormatter.getProductsInfo(datetime_products_list)
+product_names, store_addresses, product_quantities, product_units, product_prices, product_datetime, product_scores, store_names, product_images = ProductFormatter.getProductsInfo(datetime_products_list)
 products_formatted_names = ProductFormatter.setProductsFormattedNames(product_names,product_quantities,product_units)
-search_home_list = ProductFormatter.sortProductsFromHomePage(products_formatted_names, product_scores, product_prices, store_addresses)
+products_formatted_images = ProductFormatter.setProductsFormattedImages(product_images)
+search_home_results = ProductFormatter.sortProductsFromHomePage(products_formatted_names, product_scores, product_prices, store_addresses, products_formatted_images)
 
-setHomeProductsJson(search_home_list)
+setMvpProductsJson(datetime_products_list)
+setHomeProductsJson(search_home_results)
 
 if len(datetime_products_list) > 0:
-    GoogleSheetApi.update_google_sheet(clientDetails, datetime_products_list, None, search_home_list, None)
+    GoogleSheetApi.update_google_sheet(clientDetails, datetime_products_list, None, search_home_results, None)
     if InputSettings.INPUT_SITE:
         XlsxUtils.create_csv_file(datetime_products_list)
     if InputSettings.GENERATE_EXCEL:

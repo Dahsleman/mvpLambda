@@ -83,7 +83,7 @@ class InputSettings:
         }    
     ] 
 
-    PAGE_TWO = [
+    SEARCH_DETAILS = [
         {
             "__ADDRESS__": address,
             "__TERM__":term,

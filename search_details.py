@@ -12,7 +12,7 @@ def setPageTwoList(_products_formatted_names_by_term):
         
     return new_page_two_list   
 
-clientDetails = InputSettings.PAGE_TWO[int(sys.argv[1])]
+clientDetails = InputSettings.SEARCH_DETAILS[int(sys.argv[1])]
 address = clientDetails["__ADDRESS__"]
 term = clientDetails["__TERM__"]
 product_name = clientDetails["__PRODUCT_NAME__"]
