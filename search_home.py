@@ -19,10 +19,18 @@ def setMvpProductsJson(_products_list:list):
     JsonFile.createJsonFile(_products_list, json_file_name)
 
 def setHomeProductsJson(_products_list:list):
+    new_products_list = []
+    _products_dict = {}
+    _products_dict['status'] = 200
+    _products_dict['search_home_results_count'] = len(_products_list)
+    _products_dict['search_home_results'] = _products_list
+    new_products_list.append(_products_dict)
+
     directory_path = "./data/json/search_home"
     formatted_address = JsonFile.format_address(address)
     json_file_name = f'{directory_path}/{term}_{formatted_address}'
-    JsonFile.createJsonFile(_products_list, json_file_name)
+
+    JsonFile.createJsonFile(new_products_list, json_file_name)
 
 
 def getStoreAddressAndName(bearer_token, store_id):

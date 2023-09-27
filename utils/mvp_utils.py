@@ -312,12 +312,12 @@ class ProductFormatter:
 
         for name, score, count, price, store, image in zip(name_list, score_list, count_list, start_price_list, stores_list, images_list):
             product_dict = {}
-            product_dict['product-name-formatted'] = name
-            product_dict['fuzzy-score'] = score
+            product_dict['product_name_formatted'] = name
             # product_dict['count'] = count
-            product_dict['lowest-price'] = price
-            product_dict['stores-with-item'] = store
-            product_dict['product-image-url'] = image
+            product_dict['lowest_price'] = price
+            product_dict['stores_with_item'] = store
+            product_dict['product_image_url'] = image
+            product_dict['fuzzy_score'] = score
 
             product_names_sorted.append(product_dict)
         
