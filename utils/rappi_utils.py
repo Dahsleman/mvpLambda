@@ -1,3 +1,4 @@
+from playwright.async_api import async_playwright
 from playwright.sync_api import sync_playwright
 from fuzzy.prod.fuzzy_unitary import Fuzzy
 import re
@@ -100,11 +101,43 @@ class Playwright:
                 route.continue_()
 
             page.route('**', route_handler)
-            page.goto('https://www.rappi.com.br', timeout=0)
-            page.wait_for_selector('body')
+            page.goto('https://www.rappi.com.br')
+            # page.wait_for_selector('body')
+            # body = page.locator('body')
+            # body.wait_for(timeout=0)
+            
             browser.close()
 
         return authorization_header
+    
+    async def scrape_network_requests():
+        authorization_header = None  # Initialize the variable to store the header value
+        async with async_playwright() as p:
+            browser = await p.chromium.launch()
+            context = await browser.new_context()
+            page = await context.new_page()
+
+            async def route_handler(route, request):
+                nonlocal authorization_header  # Use 'nonlocal' to modify the outer variable
+                if request.method == 'POST' and request.url == 'https://services.rappi.com.br/api/pns-global-search-api/v1/unified-recent-top-searches':
+                    authorization_header = request.headers.get('authorization', None)  # Capture the header value
+                await route.continue_()
+
+            await page.route('**', route_handler)
+
+            try:
+                await page.goto('https://www.rappi.com.br/')
+                await page.wait_for_load_state("networkidle")
+            except Exception as error:
+                print('An error occurred:', error)
+            finally:
+                await browser.close()  
+    
+        return authorization_header
+    
+    async def get_bearer_token():
+        bearer_token = await Playwright.scrape_network_requests()
+        return bearer_token
 
 class Puppeteer:
     # Define the Node.js code as a string
