@@ -390,6 +390,15 @@ class ProductFormatter:
 
         return product_names_by_term
 
+    def setAddressFormattedNames(store_address:list)->list:
+        address_formatted_names = []
+        for address in store_address:
+            address = unicodedata.normalize('NFKD', address).encode('ASCII', 'ignore').decode('ASCII')
+            # formatted_name = bytes(name, 'utf-8').decode('unicode-escape')
+            formatted_address = address
+            address_formatted_names.append(formatted_address)
+        return address_formatted_names
+    
     def setStoresFormattedNames(store_names:list)->list:
         stores_formatted_names = []
         for name in store_names:

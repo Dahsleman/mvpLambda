@@ -78,7 +78,6 @@ class StringUtils:
             product_quantity = product['quantity']
             product_dict['product-quantity'] = product_quantity
 
-
             if can_add:
                 product_dict_list.append(product_dict)
 
@@ -126,8 +125,8 @@ class Playwright:
             await page.route('**', route_handler)
 
             try:
-                await page.goto('https://www.rappi.com.br/')
-                await page.wait_for_load_state("networkidle")
+                await page.goto('https://www.rappi.com.br/', timeout=0)
+                await page.wait_for_load_state("networkidle", timeout=0)
             except Exception as error:
                 print('An error occurred:', error)
             finally:
