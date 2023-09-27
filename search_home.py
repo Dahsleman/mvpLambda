@@ -10,6 +10,7 @@ from utils.xlsx_utils import XlsxUtils
 from datetime import datetime
 import geocoder 
 import requests
+import asyncio
 import sys
 import os   
 
@@ -207,16 +208,19 @@ print(f'ADDRESS: {formatted_time}')
 
 # Get the bearer_token
 try:
-    bearer_token = Playwright.get_headers_authorization()
+    # bearer_token = Playwright.get_headers_authorization()
+    bearer_token = asyncio.run(Playwright.get_bearer_token())
     if bearer_token:
         print('Using generated Bearer_token')
     else:
-        token = False
-        while token == False:
-            bearer_token = Playwright.get_headers_authorization()
-            if bearer_token:
-                token = True
-                print('Using generated Bearer_token with while')            
+        print('assync method didnt work')
+        exit()
+        # token = False
+        # while token == False:
+        #     bearer_token = Playwright.get_headers_authorization()
+        #     if bearer_token:
+        #         token = True
+        #         print('Using generated Bearer_token with while')            
         
 except Exception as err:
     print(f'ERRO: {err}')
