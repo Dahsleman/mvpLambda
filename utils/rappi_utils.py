@@ -78,7 +78,6 @@ class StringUtils:
             product_quantity = product['quantity']
             product_dict['product-quantity'] = product_quantity
 
-
             if can_add:
                 product_dict_list.append(product_dict)
 
