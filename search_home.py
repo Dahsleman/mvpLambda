@@ -10,11 +10,17 @@ from utils.xlsx_utils import XlsxUtils
 from datetime import datetime
 import geocoder 
 import requests
-import sys   
+import sys
+import os   
 
 def setProductsJson(_products_list:list, address=None, term=None, product_name=None):
     if address == None:
+        
         directory_path = "./data/json/mvp"
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
+            print(f"The folder {directory_path} was created.")
+
         formatted_address = JsonFile.format_str(address)
         json_file_name = f'{directory_path}/{term}_{formatted_address}'
         JsonFile.createJsonFile(_products_list, json_file_name)
@@ -27,7 +33,12 @@ def setProductsJson(_products_list:list, address=None, term=None, product_name=N
         _products_dict['search_details_results_count'] = len(_products_list)
         _products_dict['search_details_results'] = _products_list
         _new_products_list.append(_products_dict)
+
         directory_path = "./data/json/search_details"
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
+            print(f"The folder {directory_path} was created.")
+
         formatted_name = JsonFile.format_str(product_name)
         formatted_address = JsonFile.format_str(address)
         json_file_name = f'{directory_path}/{formatted_name}_{formatted_address}'
@@ -40,7 +51,12 @@ def setProductsJson(_products_list:list, address=None, term=None, product_name=N
         _products_dict['search_home_results_count'] = len(_products_list)
         _products_dict['search_home_results'] = _products_list
         _new_products_list.append(_products_dict)
+        
         directory_path = "./data/json/search_home"
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
+            print(f"The folder {directory_path} was created.")
+
         formatted_address = JsonFile.format_str(address)
         json_file_name = f'{directory_path}/{term}_{formatted_address}'
         JsonFile.createJsonFile(_new_products_list, json_file_name)
@@ -170,7 +186,6 @@ client = clientDetails["__NAME__"]
 querys = clientDetails["__QUERY__"]
 query = getFirstQuery(querys)
 AQA.addAditionalQueries(query, original_queries_dic)
-
 
 """PROGRAM"""
 current_datetime = datetime.now()
