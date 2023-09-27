@@ -1,4 +1,4 @@
-from collections import Counter, defaultdict 
+from collections import defaultdict 
 import unicodedata
 import json
 
@@ -360,7 +360,7 @@ class ProductFormatter:
 
         return products_list, prices_list, store_names_list, store_addresses_list, images_list
         
-    def getTermPricesAndStores(product_name:str, product_prices:list, store_address:list, datetime_search:list, products_formatted_names:list, store_names:list, product_images:list )->list:
+    def sortProductsFromDetailsPage(product_name:str, product_prices:list, store_address:list, datetime_search:list, products_formatted_names:list, store_names:list, product_images:list )->list:
         product_names_by_term = []
         new_product_names = []
         new_product_prices = []
@@ -463,6 +463,6 @@ class JsonFile:
         formatted_input = ''.join(capitalized_words)
 
         # Remove spaces, commas, dots, and hyphens
-        formatted_input = formatted_input.replace(' ', '').replace(',', '').replace('.', '').replace('-', '')
+        formatted_input = formatted_input.replace(' ', '').replace(',', '').replace('.', '').replace('-', '').replace('/', '')
 
         return formatted_input

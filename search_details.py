@@ -1,5 +1,5 @@
 from google_sheet.google_sheet_api import GoogleSheetApi
-from utils.mvp_utils import ProductFormatter, JsonFile
+from utils.product_formatter_utils import ProductFormatter, JsonFile
 from input_settings import InputSettings
 import json
 import sys

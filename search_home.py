@@ -1,8 +1,8 @@
 from __future__ import print_function
 
 from algorithms.aditional_queries_algorithm import AditionalQueriesAlgorithm as AQA
+from utils.product_formatter_utils import ProductFormatter, JsonFile
 from google_sheet.google_sheet_api import GoogleSheetApi
-from utils.mvp_utils import ProductFormatter, JsonFile
 from utils.rappi_utils import StringUtils, Playwright
 from utils.file_generator import FileGenerator
 from input_settings import InputSettings
@@ -12,42 +12,38 @@ import geocoder
 import requests
 import sys   
 
-def setMvpProductsJson(_products_list:list):
-    directory_path = "./data/json/mvp"
-    formatted_address = JsonFile.format_str(address)
-    json_file_name = f'{directory_path}/{term}_{formatted_address}'
-    JsonFile.createJsonFile(_products_list, json_file_name)
+def setProductsJson(_products_list:list, address=None, term=None, product_name=None):
+    if address == None:
+        directory_path = "./data/json/mvp"
+        formatted_address = JsonFile.format_str(address)
+        json_file_name = f'{directory_path}/{term}_{formatted_address}'
+        JsonFile.createJsonFile(_products_list, json_file_name)
 
-def setDetailsProductsJson(_products_list:list, address:str, product_name:str):
-    _new_products_list = []
-    _products_dict = {}
-    _products_dict['status'] = 200
-    _products_dict['product_formatted_name'] = product_name
-    _products_dict['search_details_results_count'] = len(_products_list)
-    _products_dict['search_details_results'] = _products_list
-    _new_products_list.append(_products_dict)
+    elif term == None:
+        _new_products_list = []
+        _products_dict = {}
+        _products_dict['status'] = 200
+        _products_dict['product_formatted_name'] = product_name
+        _products_dict['search_details_results_count'] = len(_products_list)
+        _products_dict['search_details_results'] = _products_list
+        _new_products_list.append(_products_dict)
+        directory_path = "./data/json/search_details"
+        formatted_name = JsonFile.format_str(product_name)
+        formatted_address = JsonFile.format_str(address)
+        json_file_name = f'{directory_path}/{formatted_name}_{formatted_address}'
+        JsonFile.createJsonFile(_new_products_list, json_file_name)
 
-    directory_path = "./data/json/search_details"
-    formatted_name = JsonFile.format_str(product_name)
-    formatted_address = JsonFile.format_str(address)
-    json_file_name = f'{directory_path}/{formatted_name}_{formatted_address}'
-
-    JsonFile.createJsonFile(_new_products_list, json_file_name)
-
-def setHomeProductsJson(_products_list:list, address:str, term:str):
-    _new_products_list = []
-    _products_dict = {}
-    _products_dict['status'] = 200
-    _products_dict['search_home_results_count'] = len(_products_list)
-    _products_dict['search_home_results'] = _products_list
-    _new_products_list.append(_products_dict)
-
-    directory_path = "./data/json/search_home"
-    formatted_address = JsonFile.format_str(address)
-    json_file_name = f'{directory_path}/{term}_{formatted_address}'
-
-    JsonFile.createJsonFile(_new_products_list, json_file_name)
-
+    elif product_name == None:
+        _new_products_list = []
+        _products_dict = {}
+        _products_dict['status'] = 200
+        _products_dict['search_home_results_count'] = len(_products_list)
+        _products_dict['search_home_results'] = _products_list
+        _new_products_list.append(_products_dict)
+        directory_path = "./data/json/search_home"
+        formatted_address = JsonFile.format_str(address)
+        json_file_name = f'{directory_path}/{term}_{formatted_address}'
+        JsonFile.createJsonFile(_new_products_list, json_file_name)
 
 def getStoreAddressAndName(bearer_token, store_id):
     url = f'https://services.rappi.com.br/api/web-gateway/web/stores-router/id/{store_id}/'
@@ -247,12 +243,11 @@ products_formatted_names = ProductFormatter.setProductsFormattedNames(product_na
 products_formatted_images = ProductFormatter.setProductsFormattedImages(product_images)
 search_home_results = ProductFormatter.sortProductsFromHomePage(products_formatted_names, product_scores, product_prices, store_addresses, products_formatted_images)
 
-# setMvpProductsJson(datetime_products_list)
-setHomeProductsJson(search_home_results, address, term)
+setProductsJson(search_home_results, address, term, None)
 for product_dict in search_home_results:
     product_name = product_dict['product_name_formatted']
-    search_details_results = ProductFormatter.getTermPricesAndStores(product_name, product_prices,store_addresses,product_datetime,products_formatted_names, store_names, product_images)
-    setDetailsProductsJson(search_details_results, address, product_name)
+    search_details_results = ProductFormatter.sortProductsFromDetailsPage(product_name, product_prices,store_addresses,product_datetime,products_formatted_names, store_names, products_formatted_images)
+    setProductsJson(search_details_results, address, None, product_name)
 
 # if len(datetime_products_list) > 0:
 #     GoogleSheetApi.update_google_sheet(clientDetails, datetime_products_list, None, search_home_results, None)
