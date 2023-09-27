@@ -390,6 +390,15 @@ class ProductFormatter:
 
         return product_names_by_term
 
+    def setStoresFormattedNames(store_names:list)->list:
+        stores_formatted_names = []
+        for name in store_names:
+            name = unicodedata.normalize('NFKD', name).encode('ASCII', 'ignore').decode('ASCII')
+            # formatted_name = bytes(name, 'utf-8').decode('unicode-escape')
+            formatted_name = name
+            stores_formatted_names.append(formatted_name)
+        return stores_formatted_names
+    
     def setProductsFormattedImages(product_images:list)->list:
         products_formatted_images = []
         for image in product_images:

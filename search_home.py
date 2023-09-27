@@ -260,12 +260,13 @@ print(f'TOTAL PRODUCTS SCRAPED: {len(datetime_products_list)}')
 product_names, store_addresses, product_quantities, product_units, product_prices, product_datetime, product_scores, store_names, product_images = ProductFormatter.getProductsInfo(datetime_products_list)
 products_formatted_names = ProductFormatter.setProductsFormattedNames(product_names,product_quantities,product_units)
 products_formatted_images = ProductFormatter.setProductsFormattedImages(product_images)
+stores_formatted_names = ProductFormatter.setStoresFormattedNames(store_names)
 search_home_results = ProductFormatter.sortProductsFromHomePage(products_formatted_names, product_scores, product_prices, store_addresses, products_formatted_images)
 
 setProductsJson(search_home_results, address, term, None)
 for product_dict in search_home_results:
     product_name = product_dict['product_name_formatted']
-    search_details_results = ProductFormatter.sortProductsFromDetailsPage(product_name, product_prices,store_addresses,product_datetime,products_formatted_names, store_names, products_formatted_images)
+    search_details_results = ProductFormatter.sortProductsFromDetailsPage(product_name, product_prices,store_addresses,product_datetime,products_formatted_names, stores_formatted_names, products_formatted_images)
     setProductsJson(search_details_results, address, None, product_name)
 
 if len(datetime_products_list) > 0:
