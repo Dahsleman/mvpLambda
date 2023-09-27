@@ -323,13 +323,14 @@ class ProductFormatter:
         
         return product_names_sorted
 
-    def sortProductsByLowestPrice(product_names:list, product_prices:list, product_store_names:list, product_store_addresses:list):
+    def sortProductsByLowestPrice(product_names:list, product_prices:list, product_store_names:list, product_store_addresses:list, product_images:list)->tuple:
         products_list = []
         prices_list = []
         store_names_list = []
         store_addresses_list = []
+        images_list = []
 
-        for name, price, store_name, store_addresses in zip(product_names, product_prices, product_store_names, product_store_addresses):
+        for name, price, store_name, store_addresses, image in zip(product_names, product_prices, product_store_names, product_store_addresses, product_images):
             append = True
             position_to_insert = 0
             if len(prices_list) == 0:
@@ -337,6 +338,7 @@ class ProductFormatter:
                 prices_list.append(price)
                 store_names_list.append(store_name)
                 store_addresses_list.append(store_addresses)
+                images_list.append(image)
                 append = False
             else:
                 for index ,item_price in enumerate(prices_list):
@@ -346,40 +348,44 @@ class ProductFormatter:
                         products_list.insert(position_to_insert, name)
                         prices_list.insert(position_to_insert, price)
                         store_names_list.insert(position_to_insert, store_name)  
-                        store_addresses_list.insert(position_to_insert, store_addresses)               
+                        store_addresses_list.insert(position_to_insert, store_addresses) 
+                        images_list.insert(position_to_insert,image)              
                         break
             if append:
                 products_list.append(name)
                 prices_list.append(price)
                 store_names_list.append(store_name)
                 store_addresses_list.append(store_addresses)
+                images_list.append(image)
 
-        return products_list, prices_list, store_names_list, store_addresses_list
+        return products_list, prices_list, store_names_list, store_addresses_list, images_list
         
-    def getTermPricesAndStores(product_name:str, product_prices:list, store_address:list, datetime_search:list, products_formatted_names:list, store_names:list )->dict:
-        formatted_names_by_term = defaultdict(list)
+    def getTermPricesAndStores(product_name:str, product_prices:list, store_address:list, datetime_search:list, products_formatted_names:list, store_names:list, product_images:list )->list:
         product_names_by_term = []
         new_product_names = []
         new_product_prices = []
         new_product_store_names = []
         new_product_store_addresses = []
+        new_product_images = []
 
-        for formatted_name, price, store_name,store_address in zip(products_formatted_names, product_prices, store_names,store_address):
+        for formatted_name, price, store_name,store_address, image in zip(products_formatted_names, product_prices, store_names,store_address, product_images):
             if  product_name == formatted_name:
                 new_product_names.append(formatted_name)
                 new_product_prices.append(price)
                 new_product_store_names.append(store_name)
                 new_product_store_addresses.append(store_address)
+                new_product_images.append(image)
 
-        new_product_names, new_product_prices, new_product_store_names,new_product_store_addresses = ProductFormatter.sortProductsByLowestPrice(new_product_names, new_product_prices, new_product_store_names,new_product_store_addresses)
-        for formatted_name, price, store_name,store_address, datetime in zip(new_product_names, new_product_prices, new_product_store_names,new_product_store_addresses,datetime_search):
+        new_product_names, new_product_prices, new_product_store_names,new_product_store_addresses, new_product_images = ProductFormatter.sortProductsByLowestPrice(new_product_names, new_product_prices, new_product_store_names,new_product_store_addresses, new_product_images)
+        for formatted_name, price, store_name,store_address, datetime, image in zip(new_product_names, new_product_prices, new_product_store_names,new_product_store_addresses,datetime_search, new_product_images):
             if  product_name == formatted_name:    
                 product_dict = {}
-                product_dict['product-name'] = formatted_name
-                product_dict['price'] = price
-                product_dict['store'] = store_name
-                product_dict['address'] = store_address
-                product_dict['collected-in'] = datetime
+                # product_dict['product-name'] = formatted_name
+                product_dict['product_price'] = price
+                product_dict['store_name'] = store_name
+                product_dict['store_address'] = store_address
+                product_dict['product_image'] = image
+                product_dict['collected_at'] = datetime
                 product_names_by_term.append(product_dict)
 
         return product_names_by_term
@@ -446,17 +452,17 @@ class JsonFile:
             json.dump(_products_list, fp, indent=1)
             fp.close()
 
-    def format_address(input_address):
+    def format_str(input_str:str)->str:
         # Split the string into words
-        words = input_address.split()
+        words = input_str.split()
 
         # Capitalize the first letter of each word and join them
         capitalized_words = [word.capitalize() for word in words]
 
         # Join the capitalized words into a single string
-        formatted_address = ''.join(capitalized_words)
+        formatted_input = ''.join(capitalized_words)
 
         # Remove spaces, commas, dots, and hyphens
-        formatted_address = formatted_address.replace(' ', '').replace(',', '').replace('.', '').replace('-', '')
+        formatted_input = formatted_input.replace(' ', '').replace(',', '').replace('.', '').replace('-', '')
 
-        return formatted_address
+        return formatted_input
