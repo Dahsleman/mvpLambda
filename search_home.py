@@ -12,7 +12,6 @@ import os
 
 def setProductsJson(_products_list:list, address=None, term=None, product_name=None):
     if address == None:
-        
         directory_path = "./data/json/mvp"
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
@@ -143,9 +142,6 @@ clientDetails = InputSettings.LAMBDA[int(sys.argv[1])]
 address = clientDetails["__ADDRESS__"]
 query = clientDetails["__QUERY__"]
 term = clientDetails["__TERM__"]
-
-# original_queries_dic = {}
-# AQA.addAditionalQueries(query, original_queries_dic)
 
 """PROGRAM"""
 current_datetime = datetime.now()

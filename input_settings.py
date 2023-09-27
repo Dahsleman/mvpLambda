@@ -1,23 +1,6 @@
-import pandas as pd
 import json
 
 class InputSettings:
-    CLIENTS = [
-        {
-            "__NAME__": "MVP",
-            "__ADDRESS__": 'R. Prof. Baroni, 190 - 101 - Gutierrez, Belo Horizonte - MG, 30441-180',
-            "__QUERY__": {
-                ("leite","L"):(),
-            },
-            "__SPREADSHEET_ID__": '1lzEl5fIgC4PfC2PuA7zJBUfs8TrSY6wGHwG3ktUQRzs'
-        },
-    ]
-
-    # Just remember to user / instead of \
-    DICTIONARY_FILE_PATH = 'G:/My Drive/kompru/dictionary.xlsx'
-    
-    DIRECTORY_PATH = "G:/My Drive/kompru/data"
-
     directory_path = "./data/s3"
     json_file_name = f'{directory_path}/input'
 
