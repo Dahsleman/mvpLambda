@@ -249,12 +249,12 @@ for product_dict in search_home_results:
     search_details_results = ProductFormatter.sortProductsFromDetailsPage(product_name, product_prices,store_addresses,product_datetime,products_formatted_names, store_names, products_formatted_images)
     setProductsJson(search_details_results, address, None, product_name)
 
-# if len(datetime_products_list) > 0:
-#     GoogleSheetApi.update_google_sheet(clientDetails, datetime_products_list, None, search_home_results, None)
-#     if InputSettings.INPUT_SITE:
-#         XlsxUtils.create_csv_file(datetime_products_list)
-#     if InputSettings.GENERATE_EXCEL:
-#         FileGenerator.generateFiles(datetime_products_list, clientDetails)
+if len(datetime_products_list) > 0:
+    GoogleSheetApi.update_google_sheet(clientDetails, datetime_products_list, None, search_home_results, None)
+    if InputSettings.INPUT_SITE:
+        XlsxUtils.create_csv_file(datetime_products_list)
+    if InputSettings.GENERATE_EXCEL:
+        FileGenerator.generateFiles(datetime_products_list, clientDetails)
 
 current_datetime = datetime.now()
 formatted_time = current_datetime.strftime("%Y-%m-%d | %H:%M:%S")
