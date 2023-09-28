@@ -1,7 +1,7 @@
 import json
 
 class InputSettings:
-    directory_path = "./data/s3"
+    directory_path = "."
     json_file_name = f'{directory_path}/input'
 
     try:
@@ -11,18 +11,8 @@ class InputSettings:
     except FileNotFoundError as err:
         print(f'Error: {err}')
 
-    term = json_data['search_term']
-    address = json_data['address']
-
-    LAMBDA = [
-        {
-            "__ADDRESS__": address,
-            "__QUERY__": {
-                (term,"L"):(),
-            },
-            "__TERM__": term,
-        }
-    ]
+    TERM = json_data['search_term']
+    ADDRESS = json_data['address']
             
         
         

@@ -7,7 +7,6 @@ from datetime import datetime
 import geocoder 
 import requests
 import asyncio
-import sys
 import os   
 
 def setProductsJson(_products_list:list, address=None, term=None, product_name=None):
@@ -138,10 +137,13 @@ def geoAddress(address:str)->dict:
     return results
 
 """INPUTS"""
-clientDetails = InputSettings.LAMBDA[int(sys.argv[1])]
-address = clientDetails["__ADDRESS__"]
-query = clientDetails["__QUERY__"]
-term = clientDetails["__TERM__"]
+# clientDetails = InputSettings.LAMBDA[int(sys.argv[1])]
+# address = clientDetails["__ADDRESS__"]
+# query = clientDetails["__QUERY__"]
+# term = clientDetails["__TERM__"]
+
+address = InputSettings.ADDRESS
+term = InputSettings.TERM
 
 """PROGRAM"""
 current_datetime = datetime.now()
