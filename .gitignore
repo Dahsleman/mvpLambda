@@ -9,7 +9,6 @@ env
 # Exclude virtual environment directory
 venv/
 *.zip
-package/
 
 # Ignore macOS system files
 .DS_Store
