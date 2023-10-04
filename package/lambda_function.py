@@ -4,7 +4,6 @@ from input_settings import InputSettings
 from geopy.geocoders import GoogleV3
 from datetime import datetime
 import requests
-import boto3
 import json
 
 def lambda_handler(event, context):
@@ -214,17 +213,24 @@ for product_dict in search_home_results:
                                                                               addresses_formatted_names, product_datetime, 
                                                                               products_formatted_names, stores_formatted_names, 
                                                                               products_formatted_images)
-    
-    product_dict['search_details_results_count'] = len(search_details_results)
+
+    product_dict['product_image_url'] = search_details_results[0]['product_image']
+    for details_dict in search_details_results:
+        details_dict.pop('product_image')
+
     product_dict['search_details_results'] = search_details_results
 
 data_dict = set_search_home_data(search_home_results, term)
+
+# file_path = "data/lambda.json"
+# with open(file_path, 'w') as json_file:
+#     json.dump(data_dict, json_file, indent=4)
+
 json_data = json.dumps(data_dict, indent=4)
 
 if InputSettings.SAVE_S3:
     InputSettings.S3.put_object(Bucket=InputSettings.SAVE_BUCKET_NAME, Key=InputSettings.SAVE_FILE_KEY, Body=json_data)
-
-lambda_handler(json_data, None)
+    lambda_handler(json_data, None)
 
 current_datetime = datetime.now()
 formatted_time = current_datetime.strftime("%Y-%m-%d | %H:%M:%S")
